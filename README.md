@@ -1,4 +1,6 @@
 
+# mendix test project
+[https://github.com/engalar/mendix-odata-to-python](https://github.com/engalar/mendix-odata-to-python)
 # Python OData Server
 [![Tests](https://github.com/Ficodes/python-odata-server/actions/workflows/tests.yml/badge.svg)](https://github.com/Ficodes/python-odata-server/actions/workflows/tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Ficodes/python-odata-server/badge.svg)](https://coveralls.io/github/Ficodes/python-odata-server)

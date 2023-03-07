@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+  <edmx:DataServices>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="DefaultNamespace">
+      <EntityType Name="Entity">
+        <Key>
+          <PropertyRef Name="Attribute"/>
+        </Key>
+        <Property MaxLength="200" Name="Attribute" Nullable="false" Type="Edm.String"/>
+      </EntityType>
+      <EntityContainer Name="Entities">
+        <EntitySet EntityType="DefaultNamespace.Entity" Name="Entitys">
+          <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Insertable"/>
+              <PropertyValue Int="0" Property="MaxLevels"/>
+              <PropertyValue Bool="false" Property="TypecastSegmentSupported"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeepInsertSupport">
+            <Record>
+              <PropertyValue Bool="false" Property="Supported"/>
+              <PropertyValue Bool="false" Property="ContentIDSupported"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Updatable"/>
+              <PropertyValue Bool="true" Property="DeltaUpdateSupported"/>
+              <PropertyValue Property="UpdateMethod">
+                <EnumMember>Org.OData.Capabilities.V1.HttpMethod/PATCH</EnumMember>
+              </PropertyValue>
+              <PropertyValue Bool="false" Property="FilterSegmentSupported"/>
+              <PropertyValue Bool="false" Property="TypecastSegmentSupported"/>
+              <PropertyValue Property="NonUpdatableProperties">
+                <Collection>
+                  <PropertyPath>Attribute</PropertyPath>
+                </Collection>
+              </PropertyValue>
+              <PropertyValue Int="0" Property="MaxLevels"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Deletable"/>
+              <PropertyValue Int="0" Property="MaxLevels"/>
+              <PropertyValue Bool="false" Property="FilterSegmentSupported"/>
+              <PropertyValue Bool="false" Property="TypecastSegmentSupported"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.FilterRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Filterable"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SortRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Sortable"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.CountRestrictions">
+            <Record>
+              <PropertyValue Bool="true" Property="Countable"/>
+            </Record>
+          </Annotation>
+          <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+            <Record>
+              <PropertyValue Bool="false" Property="Searchable"/>
+            </Record>
+          </Annotation>
+        </EntitySet>
+        <Annotation Bool="false" Term="Org.OData.Capabilities.V1.BatchSupported"/>
+        <Annotation Bool="false" Term="Org.OData.Capabilities.V1.CrossJoinSupported"/>
+        <Annotation Bool="true" Term="Org.OData.Capabilities.V1.QuerySegmentSupported"/>
+        <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
+          <Collection>
+            <String>application/json</String>
+          </Collection>
+        </Annotation>
+      </EntityContainer>
+    </Schema>
+    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="Mendix" Namespace="Com.Mendix">
+      <Term Name="IsAttribute" Type="Edm.Boolean"/>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

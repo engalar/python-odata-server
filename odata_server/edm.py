@@ -514,6 +514,9 @@ class Action(EdmItem):
     # ReturnType = meta.element(ReturnType)
     Annotations = meta.element(list, items=Annotation)
 
+class Term(EdmItem):
+    Name = meta.attribute(str, required=True)
+    Type = meta.attribute(str, json_default="Edm.String")
 
 class Schema(EdmItem):
 
@@ -528,7 +531,7 @@ class Schema(EdmItem):
     EntityTypes = meta.attribute(list, items=EntityType)
     # EnumTypes = meta.attribute(list, items=EnumType)
     # Functions = meta.attribute(list, items=Function)
-    # Terms = meta.attribute(list, items=Term)
+    Terms = meta.attribute(list, items=Term)
     # TypeDefinitions = meta.attribute(list, items=TypeDefinitions)
 
 

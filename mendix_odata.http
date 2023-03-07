@@ -1,0 +1,38 @@
+### retrive single
+POST http://127.0.0.1:5000/Entitys/$query HTTP/1.1
+Accept: application/json, application/atom+xml
+Content-Type: text/plain
+
+$select=Attribute&$filter=(Attribute eq 'a3')
+
+### retrive list
+POST http://127.0.0.1:5000/Entitys/$query HTTP/1.1
+Accept: application/json, application/atom+xml
+Content-Type: text/plain
+
+$select=Attribute&$count=true&$top=20&$orderby=Attribute%20asc
+
+###
+POST http://localhost:8080/odata/Published_OData_service/v1/Entitys/$query HTTP/1.1
+Accept: application/json, application/atom+xml
+Content-Type: text/plain
+
+$select=Attribute&$filter=%28Attribute%20eq%20%27a3%27%29
+
+###
+POST http://localhost:8080/odata/Published_OData_service/v1/Entitys/$query HTTP/1.1
+Accept: application/json, application/atom+xml
+Content-Type: text/plain
+
+$select=Attribute&$count=true&$top=20&$orderby=Attribute%20asc
+
+###
+GET http://127.0.0.1:5000/Entitys HTTP/1.1
+
+
+### create
+
+POST http://127.0.0.1:5000/Entitys HTTP/1.1
+
+{"Attribute":"a100"}
+

@@ -8,6 +8,7 @@ from urllib.parse import parse_qs as urllib_parse_qs
 
 import abnf
 import pymongo
+import urllib
 import werkzeug
 from flask import Blueprint, Response, abort, request, url_for
 
@@ -136,6 +137,18 @@ class ODataBluePrint(Blueprint):
                     full_resource_path = f"{state.url_prefix}/{resource_path}"
 
                     # URL rules
+                    state.add_url_rule(
+                        f"/{resource_path}/$query",
+                        view_func=entity_set_query_endpoint,
+                        methods=["POST"],
+                        endpoint="{}$query".format(entity_set.Name),
+                        defaults={
+                            "edmx": edmx,
+                            "mongo": mongo,
+                            "RootEntitySet": entity_set,
+                            "base_path": full_resource_path,
+                        },
+                    )
                     state.add_url_rule(
                         f"/{resource_path}",
                         view_func=entity_set_endpoint,
@@ -406,6 +419,41 @@ def get_collection_count(edmx, mongo, EntitySet, filters=None):
     return make_response(count, status=200, headers=headers)
 
 
+def entity_set_query_endpoint(mongo, edmx, RootEntitySet, base_path):
+    a = request.get_data()
+    filter = None
+    top = None
+    skip = None
+    for term in a.decode("utf-8").split('&'):
+        key = term.split("=")[0]
+        value = term.split("=")[1]
+        skip = 0
+        if(key == "$skip"):
+            skip = int(value)
+        if(key == "$top"):
+            top = int(value)
+        if (key == "$filter"):
+            filter = urllib.parse.unquote(value).split('\'')[-2]
+    # hard code
+    data = ({
+        "@odata.context": "http://localhost:8080/odata/Published_OData_service/v1/$metadata#Entitys(Attribute)",
+        "value": [
+            {
+                "Attribute": filter
+            }
+        ]
+    })if filter != None else ({
+        "@odata.context": "http://localhost:8080/odata/Published_OData_service/v1/$metadata#Entitys(Attribute)",
+        "@odata.count": 20,
+        "value":
+        [{
+            "Attribute": "a" + str(i + 1 + skip)
+        } for i in range(top)]
+    })
+
+    return make_response(data, None, None, {"Content-Type": "application/json;charset=utf-8"})
+
+
 def entity_set_endpoint(mongo, edmx, RootEntitySet, base_path):
     if request.method == "GET":
         return get_entity_set(mongo, edmx, RootEntitySet, base_path=base_path)
@@ -595,7 +643,7 @@ def get_entity_set(mongo, edmx, RootEntitySet, base_path, navigation=""):
 
     if navigation != "":
         # ABNF grammar is prepared to consume raw paths
-        navigation = request.environ["RAW_URI"][len(base_path) :]
+        navigation = request.environ["RAW_URI"][len(base_path):]
 
         try:
             tree = ODataGrammar("collectionNavPath").parse_all(navigation)
